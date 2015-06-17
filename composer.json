@@ -1,0 +1,15 @@
+{
+  "name": "tulanowski/php-riot-api",
+  "description": "PHP Wrapper for Riot Games API",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Kevin Ohashi"
+    },
+    {
+      "name": "Tomasz Ulanowski",
+      "email": "tomasz@ulanowski.info"
+    }
+  ]
+}

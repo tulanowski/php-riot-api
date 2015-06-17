@@ -44,8 +44,6 @@ class riotapi {
 	const API_URL_CURRENT_GAME_1_0 = 'https://{region}.api.pvp.net/observer-mode/rest/consumer/getSpectatorGameInfo/';
 
 
-	const API_KEY = 'INSERT_API_KEY_HERE';
-
 	// Rate limit for 10 minutes
 	const LONG_LIMIT_INTERVAL = 600;
 	const RATE_LIMIT_LONG = 500;
@@ -56,10 +54,26 @@ class riotapi {
 
 	// Cache variables
 	const CACHE_LIFETIME_MINUTES = 60;
+
+	/**
+	 * @var CacheInterface
+	 */
 	private $cache;
 
-	private $REGION;	
-	//variable to retrieve last response code
+    /**
+     * @var string
+     */
+	private $apiKey;
+
+    /**
+     * @var string
+     */
+	private $REGION;
+
+	/**
+	 * variable to retrieve last response code
+	 * @var int
+	 */
 	private $responseCode; 
 
 
@@ -79,8 +93,9 @@ class riotapi {
 	// Remove this commit if you want. - Ahubers
 	const DECODE_ENABLED = TRUE;
 
-	public function __construct($region, CacheInterface $cache = null)
+	public function __construct($apiKey, $region, CacheInterface $cache = null)
 	{
+		$this->apiKey = $apiKey;
 		$this->REGION = $region;
 
 		$this->shortLimitQueue = new SplQueue();
@@ -246,7 +261,7 @@ class riotapi {
 		return $this->request($call);
 	}
 
-	private function updateLimitQueue($queue, $interval, $call_limit){
+	private function updateLimitQueue(SplQueue $queue, $interval, $call_limit){
 		
 		while(!$queue->isEmpty()){
 			
@@ -330,7 +345,7 @@ class riotapi {
 	//creates a full URL you can query on the API
 	private function format_url($call, $otherQueries=false){
 		//because sometimes your url looks like .../something/foo?query=blahblah&api_key=dfsdfaefe
-		return str_replace('{region}', $this->REGION, $call) . ($otherQueries ? '&' : '?') . 'api_key=' . self::API_KEY;
+		return str_replace('{region}', $this->REGION, $call) . ($otherQueries ? '&' : '?') . 'api_key=' . $this->apiKey;
 	}
 
 	public function getLastResponseCode(){
