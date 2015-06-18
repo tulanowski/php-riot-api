@@ -11,5 +11,10 @@
       "name": "Tomasz Ulanowski",
       "email": "tomasz@ulanowski.info"
     }
-  ]
+  ],
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  }
 }
